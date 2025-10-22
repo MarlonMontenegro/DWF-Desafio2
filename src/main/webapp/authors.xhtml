@@ -31,3 +31,73 @@
                          required="true"
                          requiredMessage="El nombre es obligatorio." />
           </div>
+
+
+
+
+
+
+<!-- DOB -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Fecha de Nacimiento</label>
+            <h:inputText id="birthdate"
+                         value="#{empty authorBean ? '' : authorBean.form.birthdate}"
+                         styleClass="form-control"
+                         required="true"
+                         requiredMessage="La fecha de nacimiento es obligatoria."
+                         converterMessage="Formato de fecha inválido (dd/MM/yyyy)">
+              <f:convertDateTime pattern="dd/MM/yyyy" />
+            </h:inputText>
+          </div>
+
+          <!-- Validacion de numero -->
+          <div class="col-12 col-md-6">
+            <label class="form-label">Teléfono</label>
+            <h:inputText id="phone"
+                         value="#{empty authorBean ? '' : authorBean.form.phone}"
+                         styleClass="form-control">
+              <f:validator validatorId="svPhoneValidator" />
+            </h:inputText>
+          </div>
+
+          <!-- Genero -->
+          <div class="col-12">
+            <label class="form-label">Género</label>
+            <h:selectOneMenu id="genre"
+                             value="#{empty authorBean ? '' : authorBean.form.genreId}"
+                             styleClass="form-select">
+              <f:selectItem itemLabel="Select" itemValue="" />
+              <h:panelGroup rendered="#{not empty authorBean}">
+                <f:selectItems value="#{authorBean.genres}" var="g" itemValue="#{g.id}" itemLabel="#{g.name}" />
+              </h:panelGroup>
+            </h:selectOneMenu>
+          </div>
+
+          <!-- agregar -->
+          <div class="col-12 text-center">
+            <h:commandButton value="AGREGAR"
+                             action="#{authorBean.add}"
+                             styleClass="btn btn-dark px-4" />
+          </div>
+
+          <!-- Validacion -->
+          <div class="col-12">
+            <label class="form-label">Validaciones</label>
+            <div class="validation-box border rounded p-3 bg-body-tertiary">
+              <h:messages id="msgs" layout="list"
+                          infoClass="text-success mb-1"
+                          warnClass="text-warning mb-1"
+                          errorClass="text-danger mb-1"
+                          fatalClass="text-danger fw-bold mb-1"/>
+              <!-- Error duplicado -->
+              <h:panelGroup rendered="#{not empty authorBean and authorBean.duplicateAdded}">
+                <div class="text-warning">Este autor ya existía y fue agregado nuevamente.</div>
+              </h:panelGroup>
+            </div>
+          </div>
+
+        </div>
+      </h:form>
+    </div>
+  </div>
+
