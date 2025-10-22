@@ -101,3 +101,43 @@
     </div>
   </div>
 
+<!-- ===== Pestañas ===== -->
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="h6 m-0">DIRECTORIO DE AUTORES</h2>
+
+    <!-- Filtro por genero  -->
+    <h:form id="formGenre" styleClass="d-flex gap-2 align-items-center">
+      <h:selectOneMenu id="genreFilter"
+                       value="#{empty authorBean ? '' : authorBean.selectedGenreId}"
+                       styleClass="form-select">
+        <f:selectItem itemLabel="Género" itemValue="" />
+        <h:panelGroup rendered="#{not empty authorBean}">
+          <f:selectItems value="#{authorBean.genres}" var="g" itemValue="#{g.id}" itemLabel="#{g.name}" />
+          <f:ajax listener="#{authorBean.onGenreChange}" render="tbl authorsCount" />
+        </h:panelGroup>
+      </h:selectOneMenu>
+    </h:form>
+  </div>
+
+  <!-- Filtro por texto -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h:form id="formSyncFilter" styleClass="row g-2 align-items-center">
+        <div class="col-12 col-md">
+          <h:inputText value="#{empty authorBean ? '' : authorBean.syncFilter}"
+                       styleClass="form-control"
+                       placeholder="Filtrar por nombre, teléfono..." />
+        </div>
+        <div class="col-12 col-md-auto">
+          <h:commandButton value="Aplicar filtro"
+                           action="#{authorBean.applySyncFilter}"
+                           styleClass="btn btn-outline-secondary" />
+        </div>
+      </h:form>
+    </div>
+  </div>
+
+  <!-- ===== TABLA ===== -->
+  <h:form id="formTable">
+    <h:panelGroup id="tbl">
+
