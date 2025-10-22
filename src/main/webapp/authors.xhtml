@@ -141,3 +141,37 @@
   <h:form id="formTable">
     <h:panelGroup id="tbl">
 
+      <!-- mostrando datos de la base -->
+      <h:panelGroup rendered="#{not empty authorBean and not empty authorBean.visibleAuthors}">
+        <table class="table table-sm table-striped align-middle">
+          <thead class="table-light">
+          <tr>
+            <th style="width:90px">ID Autor</th>
+            <th>Nombre Autor</th>
+            <th>Teléfono</th>
+            <th>Fecha Nacimiento</th>
+            <th>Género Literario</th>
+            <th style="width:160px">Operaciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <h:dataTable value="#{authorBean.visibleAuthors}" var="a">
+            <tr>
+              <td>#{a.id}</td>
+              <td>#{a.name}</td>
+              <td>#{a.phone}</td>
+              <td><h:outputText value="#{a.birthdate}"><f:convertDateTime pattern="dd/MM/yyyy"/></h:outputText></td>
+              <td>#{a.genre.name}</td>
+              <td class="text-nowrap">
+                <h:commandButton value="EDITAR" action="#{authorBean.edit(a)}"
+                                 styleClass="btn btn-outline-dark btn-sm me-1" />
+                <h:commandButton value="BORRAR" action="#{authorBean.delete(a)}"
+                                 styleClass="btn btn-outline-secondary btn-sm">
+                  <f:ajax render="tbl authorsCount msgs" />
+                </h:commandButton>
+              </td>
+            </tr>
+          </h:dataTable>
+          </tbody>
+        </table>
+      </h:panelGroup>
