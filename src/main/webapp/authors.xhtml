@@ -175,3 +175,43 @@
           </tbody>
         </table>
       </h:panelGroup>
+
+<!-- cuando no hay datos para mostrar -->
+      <h:panelGroup rendered="#{empty authorBean or empty authorBean.visibleAuthors}">
+        <table class="table table-sm table-striped align-middle">
+          <thead class="table-light">
+            <tr>
+              <th style="width:90px">ID Autor</th>
+              <th>Nombre Autor</th>
+              <th>Teléfono</th>
+              <th>Fecha Nacimiento</th>
+              <th>Género Literario</th>
+              <th style="width:160px">Operaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center"><td colspan="6">No hay autores para mostrar.</td></tr>
+          </tbody>
+        </table>
+      </h:panelGroup>
+
+    </h:panelGroup>
+
+    <!-- contador y boton  -->
+    <div class="d-flex justify-content-between align-items-center">
+      <small class="text-muted">
+        Número de autores:
+        <h:outputText id="authorsCount" value="#{empty authorBean ? 0 : authorBean.visibleCount}" />
+      </small>
+      <h:commandButton value="CONTAR"
+                       actionListener="#{authorBean.recount}"
+                       styleClass="btn btn-dark btn-sm">
+        <f:ajax render="authorsCount" />
+      </h:commandButton>
+    </div>
+  </h:form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</h:body>
+</html>
