@@ -21,6 +21,7 @@ public class AuthorBean {
 
     private final AuthorModel authorModel = new AuthorModel();
     private final LiteraryGenreModel genreModel = new LiteraryGenreModel();
+    private boolean editMode = false;
 
     private Author author = new Author();
     private Integer generoSeleccionado;
@@ -34,6 +35,14 @@ public class AuthorBean {
 
     public String getFiltroNombre() { return filtroNombre; }
     public void setFiltroNombre(String filtroNombre) { this.filtroNombre = filtroNombre; }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
 
 
     public List<LiteraryGenre> getGeneros() {
@@ -64,6 +73,7 @@ public class AuthorBean {
             JsfUtil.setErrorMessage(null, "El nombre es obligatorio.");
             return null;
         }
+
         LocalDate hoy = LocalDate.now();
         if (author.getBirthDate() == null || author.getBirthDate().isAfter(hoy)) {
             JsfUtil.setErrorMessage(null, "La fecha de nacimiento es obligatoria y no puede ser futura.");
@@ -71,9 +81,19 @@ public class AuthorBean {
         }
 
 
-        boolean duplicado = authorModel.existeAutorPorNombreYFecha(author.getFullName(), author.getBirthDate());
-        if (author.getCreatedAt() == null) author.setCreatedAt(LocalDateTime.now());
+        if (generoSeleccionado == null) {
+            JsfUtil.setErrorMessage(null, "Debe seleccionar un género literario.");
+            return null;
+        }
 
+        LiteraryGenre genero = genreModel.buscarPorId(generoSeleccionado);
+        author.setLiteraryGenre(genero);
+
+        if (author.getCreatedAt() == null) {
+            author.setCreatedAt(LocalDateTime.now());
+        }
+
+        boolean duplicado = authorModel.existeAutorPorNombreYFecha(author.getFullName(), author.getBirthDate());
 
         int filas = (author.getId() == null)
                 ? authorModel.insertarAutor(author)
@@ -91,14 +111,16 @@ public class AuthorBean {
                             "Este autor ya había sido agregado anteriormente."));
         } else {
             JsfUtil.setFlashMessage("exito", (author.getId() == null)
-                    ? "Autor registrado exitosamente." : "Autor actualizado correctamente.");
+                    ? "Autor registrado exitosamente."
+                    : "Autor actualizado correctamente.");
         }
 
         return "autores?faces-redirect=true";
     }
 
-    public String eliminarAutor(Author a) {
-        int filas = authorModel.eliminarAutor(a.getId());
+
+    public String eliminarAutor() {
+        int filas = authorModel.eliminarAutor(author.getId());
         if (filas != 1) {
             JsfUtil.setErrorMessage(null, "No se pudo eliminar el autor.");
             return null;
@@ -109,7 +131,13 @@ public class AuthorBean {
 
     public String editarAutor(Author a) {
         this.author = a;
-        if (a.getLiteraryGenre() != null) this.generoSeleccionado = a.getLiteraryGenre().getId();
-        return "registroAutores?faces-redirect=true";
+        this.generoSeleccionado = (a.getLiteraryGenre() != null) ? a.getLiteraryGenre().getId() : null;
+        this.editMode = true;
+        return null;
+    }
+    public void nuevoAutor() {
+        this.author = new Author();
+        this.generoSeleccionado = null;
+        this.editMode = false;
     }
 }

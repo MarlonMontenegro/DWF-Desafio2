@@ -44,6 +44,6 @@ public class Author {
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }         // ⬅️ devuelve LocalDateTime
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; } // ⬅️ recibe LocalDateTime
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

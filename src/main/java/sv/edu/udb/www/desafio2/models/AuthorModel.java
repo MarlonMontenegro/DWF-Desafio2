@@ -94,7 +94,6 @@ public class AuthorModel {
         }
     }
 
-
     public List<Author> listarPorGenero(Integer genreId) {
         EntityManager em = JpaUtil.getEntityManager();
         try {
