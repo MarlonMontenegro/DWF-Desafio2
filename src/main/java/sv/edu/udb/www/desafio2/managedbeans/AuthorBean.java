@@ -61,11 +61,9 @@ public class AuthorBean {
         return base;
     }
 
-
     public int getConteoVisibles() {
         return getListaAutores().size();
     }
-
 
     public String guardarAutor() {
 
@@ -118,7 +116,6 @@ public class AuthorBean {
         return "autores?faces-redirect=true";
     }
 
-
     public String eliminarAutor() {
         int filas = authorModel.eliminarAutor(author.getId());
         if (filas != 1) {
@@ -135,6 +132,7 @@ public class AuthorBean {
         this.editMode = true;
         return null;
     }
+
     public void nuevoAutor() {
         this.author = new Author();
         this.generoSeleccionado = null;

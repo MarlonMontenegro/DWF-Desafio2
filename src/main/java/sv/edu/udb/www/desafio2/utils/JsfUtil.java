@@ -26,8 +26,10 @@ public class JsfUtil {
         FacesContext.getCurrentInstance().getExternalContext()
                 .getFlash().put(name, msg);
     }
+
     public static HttpServletRequest getRequest(){
         return (HttpServletRequest) FacesContext.getCurrentInstance()
                 .getExternalContext().getRequest();
     }
+
 }
